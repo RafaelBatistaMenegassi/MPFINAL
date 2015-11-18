@@ -3,3 +3,5 @@ G BeloMonte 1 2 3 4
 C Galois 55 60 750
 G Nietzsche 10 20 30 400
 G Catarse 12 22 31 90
+A Adaptador 4 5
+A Carlao 40 43
