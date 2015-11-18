@@ -11,12 +11,11 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
 	char linha[120];
 	
-	printf("Comecei os trabalhos na build all\n");
-
+	
 	while(( fgets(linha, 120, stream)) != NULL){
 
 		
-		printf("%s\n", linha );
+		//printf("%s\n", linha );
 		
 		switch (linha[0]) {
 
@@ -209,9 +208,9 @@ int main(int argc, char const *argv[])
 
 
 
-	printf("Entrei na build_all\n");
+	
 	build_all(ptr,c,g,i,a);
-	printf("Sai da build_all\n");
+	printf("Buildei tudo.\n");
 	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
 
 
