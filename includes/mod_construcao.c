@@ -10,7 +10,9 @@
 int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
 	char linha[120];
-	
+
+	//C_list *c_aux1, *c_aux2;
+
 	
 	while(( fgets(linha, 120, stream)) != NULL){
 
@@ -32,7 +34,7 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 				
 			case 'I':
 				// Pegamos a linha e inserimos a entidade na lista
-				// i_build (linha, i);
+				i_build (linha, i);
 				break;
 
 			case 'A':
@@ -254,6 +256,114 @@ int a_build(char* linha, A_list** output){
 
 }
 
+int i_build(char* linha, I_list** output){
+
+	char *field;
+	
+	I_list *aux_list;
+		/*	aux_list será uma "lista" de entidades de interconexões. Vamos manipula-la e inserir a entidade especificamente
+			caracterizada na linha que usamos como entrada da funcao.
+		*/
+
+
+	aux_list 		= (*output); 
+	aux_list 		= (I_list*) malloc(sizeof(I_list));
+	aux_list->current	= (I_type*) malloc(sizeof(I_type));
+	/* aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
+	
+	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
+		return ERROR_STREAM;
+	else{
+
+		/*	NOTA IMPORTANTE: este else é basicamente o único lugar da função, a princípio, onde alterações
+				mais 'drásticas' deverão ser feitas para adaptá-la para outros tipos de entidades. de resto,
+				apenas mudança de uma letra ou outra para redefinição de tipo, não mais que isso.
+		
+			I nome_interconexao(char) pos_inic_x(int) pos_inic_y(int) pos_final_x(int) pos_final_y(int)
+			capacidade_max(int) chance_falha(float) tempo_conserto(int) custo_do_conserto(int)
+
+		*/
+
+		/* Calculando aleatoriamente a chance de falha da interconexão */
+
+		/*		
+		float num;
+		float chance_falha = 0.01;
+		srand(1); // só é executado uma vez na simulacao
+		
+		num = ((float)rand())/RAND_MAX;
+		if ( (chance_falha > 0) && (chance_falha >=num) ) 
+			printf("Falha!!\n");;
+		*/
+
+
+		/* Fim de cálculo de chance de falha */
+		
+		/* Início de geração de entidade em ponteiro para struct */
+
+		field = strtok(linha, " ");
+			/*	
+				Caractere que define o tipo de entidade: inútil para a base de dados, uma vez já
+				utilizada para chamar a função. Proximos tokens conterao as informacoes necessarias.
+			*/
+		
+		field = strtok(NULL, " ");
+			strcpy(aux_list->current->nome, field);
+				/* Fills out name field */
+
+		field = strtok(NULL, " ");
+			aux_list->current->x_start_pos = atoi (field);
+				/* Defines initial position in x axis */
+
+		field = strtok(NULL, " ");
+			aux_list->current->y_start_pos = atoi (field);
+				/* Defines initial position in y axis */
+				
+		field = strtok(NULL, " ");
+			aux_list->current->x_final_pos = atoi (field);
+				/* Defines final position in x axis */
+
+		field = strtok(NULL, " ");
+			aux_list->current->y_final_pos = atoi (field);
+				/* Defines final position in y axis */
+
+		field = strtok(NULL, " ");
+			aux_list->current->max_capacity = atoi (field);
+				/* Defines max capacity endured by the entity */
+				
+		field = strtok(NULL, " ");
+		
+			// aux_list->current->fault_chance = atof(field);
+			/* Defines the pre-defined chance of failing */
+			sscanf(field,"%f", &(aux_list->current->fault_chance));
+		
+		
+		field = strtok(NULL, " ");
+			aux_list->current->time_main = atoi (field);
+				/* Defines the fixing time */
+
+		field = strtok(NULL, " ");
+			aux_list->current->cost_main = atoi (field);
+				/* Defines the fixing cost */
+	}
+
+	/*
+	
+	aux_list 			= (C_list*) malloc(sizeof(C_list));
+	aux_list->current 	= aux;
+
+	*/
+	
+	aux_list->next 		= NULL;
+
+	(*output) = aux_list;
+	printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*output)->current->nome,(*output)->current->x_start_pos, (*output)->current->y_start_pos, (*output)->current->x_final_pos, (*output)->current->y_final_pos, (*output)->current->max_capacity, (*output)->current->fault_chance, (*output)->current->time_main, (*output)->current->cost_main);
+	
+	return FUNCTION_OK;
+
+}
+
+
 //Main para testes dos arcabouços automatizados de teste...
 
 int main(int argc, char const *argv[])
@@ -272,6 +382,7 @@ int main(int argc, char const *argv[])
 	a=(A_list**) malloc(sizeof(A_list));
 
 	I_list** i;
+	i=(I_list**) malloc(sizeof(I_list));
 
 
 
@@ -294,6 +405,10 @@ int main(int argc, char const *argv[])
 	free((*a)->current);
 	free(*a);
 	free(a);
+
+	free((*i)->current);
+	free(*i);
+	free(i);
 
 	printf("End of Execution\n");
 	return 0;
