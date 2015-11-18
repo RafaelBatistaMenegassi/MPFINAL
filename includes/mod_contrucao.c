@@ -27,7 +27,7 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 
 			case 'G':
 				// Pegamos a linha e inserimos a entidade na lista
-				g_build (linha, g);
+				// g_build (linha, g);
 				break;
 				
 			case 'I':
@@ -185,11 +185,98 @@ int g_build(char* linha, G_list** output){
 	aux_list->next 		= NULL;
 
 	(*output) = aux_list;
-	printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->production, (*output)->current->cost);
-
 	return FUNCTION_OK;
 
 }
+
+int i_build(char* linha, I_list** output){
+
+	char *field;
+	
+	I_list *aux_list;
+		/*	aux_list será uma "lista" de entidades de interconexões. Vamos manipula-la e inserir a entidade especificamente
+			caracterizada na linha que usamos como entrada da funcao.
+		*/
+	
+	
+
+	aux_list 		= (*output); 
+	aux_list 		= (I_list*) malloc(sizeof(I_list));
+	aux_list->current	= (I_type*) malloc(sizeof(I_type));
+	/* aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
+	
+	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
+		return ERROR_STREAM;
+	else{
+
+		/*	NOTA IMPORTANTE: este else é basicamente o único lugar da função, a princípio, onde alterações
+				mais 'drásticas' deverão ser feitas para adaptá-la para outros tipos de entidades. de resto,
+				apenas mudança de uma letra ou outra para redefinição de tipo, não mais que isso.
+		
+			I nome_interconexao(char) pos_inic_x(int) pos_inic_y(int) pos_final_x(int) pos_final_y(int)
+			capacidade_max(int) chance_falha(float) tempo_conserto(int) custo_do_conserto(int)
+
+		*/
+
+		/* Calculando aleatoriamente a chance de falha da interconexão */
+		
+		float num;
+		float chace_falha = 0.01;
+		srand(1); //so é executado uma vez na simulacao
+		num = ((float)rand())/RAND_MAX;if ( (chace_falha > 0) && (chace_falha >=num) ) cout << "\n FALHA!!";
+		
+		/* Fim de cálculo de chance de falha */
+		
+		/* Início de geração de entidade em ponteiro para struct */
+
+		field = strtok(linha, " ");
+			/*	
+				Caractere que define o tipo de entidade: inútil para a base de dados, uma vez já
+				utilizada para chamar a função. Proximos tokens conterao as informacoes necessarias.
+			*/
+		
+		field = strtok(NULL, " ");
+			strcpy(aux_list->current->nome, field);
+				/* Fills out name field */
+
+		field = strtok(NULL, " ");
+			aux_list->current->x_start_pos = atoi (field);
+				/* Defines initial position in x axis */
+
+		field = strtok(NULL, " ");
+			aux_list->current->y_start_pos = atoi (field);
+				/* Defines initial position in y axis */
+				
+		field = strtok(NULL, " ");
+			aux_list->current->x_start_pos = atoi (field);
+				//Defines position in x axis
+
+		field = strtok(NULL, " ");
+			aux_list->current->y_start_pos = atoi (field);
+				//Defines position in y axis
+
+		field = strtok(NULL, " ");
+			aux_list->current->production = atoi (field);
+				//Defines regular resource produced
+	
+
+		field = strtok(NULL, " ");
+			aux_list->current->cost = atoi (field);
+				//Defines regular generator cost
+	}
+
+	/*aux_list 			= (C_list*) malloc(sizeof(C_list));
+	aux_list->current 	= aux;
+
+	*/
+	
+	aux_list->next 		= NULL;
+
+	(*output) = aux_list;
+	return FUNCTION_OK;
+
+}
+
 //Main para testes dos arcabouços automatizados de teste...
 
 int main(int argc, char const *argv[])
@@ -213,7 +300,9 @@ int main(int argc, char const *argv[])
 	
 	build_all(ptr,c,g,i,a);
 	printf("Buildei tudo.\n");
-	
+	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
+
+
 	fclose(ptr);
 	free((*c)->current);
 	free(c);
