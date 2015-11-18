@@ -332,11 +332,8 @@ int i_build(char* linha, I_list** output){
 				/* Defines max capacity endured by the entity */
 				
 		field = strtok(NULL, " ");
-		
-			// aux_list->current->fault_chance = atof(field);
-			/* Defines the pre-defined chance of failing */
 			sscanf(field,"%f", &(aux_list->current->fault_chance));
-		
+			/* Defines the pre-defined chance of failing */
 		
 		field = strtok(NULL, " ");
 			aux_list->current->time_main = atoi (field);
@@ -353,7 +350,7 @@ int i_build(char* linha, I_list** output){
 	aux_list->current 	= aux;
 
 	*/
-	
+	?
 	aux_list->next 		= NULL;
 
 	(*output) = aux_list;
