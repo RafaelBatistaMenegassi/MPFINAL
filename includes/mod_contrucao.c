@@ -27,7 +27,7 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 
 			case 'G':
 				// Pegamos a linha e inserimos a entidade na lista
-				// g_build (linha, g);
+				g_build (linha, g);
 				break;
 				
 			case 'I':
@@ -185,6 +185,8 @@ int g_build(char* linha, G_list** output){
 	aux_list->next 		= NULL;
 
 	(*output) = aux_list;
+	printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->production, (*output)->current->cost);
+
 	return FUNCTION_OK;
 
 }
@@ -211,9 +213,7 @@ int main(int argc, char const *argv[])
 	
 	build_all(ptr,c,g,i,a);
 	printf("Buildei tudo.\n");
-	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
-
-
+	
 	fclose(ptr);
 	free((*c)->current);
 	free(c);
