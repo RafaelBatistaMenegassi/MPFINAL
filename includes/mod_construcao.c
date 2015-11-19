@@ -361,6 +361,47 @@ int i_build(char* linha, I_list** output){
 }
 
 
+push_list  (void** target, 	/*Entidade tipo _list, onde será inserido o elemento*/ void*  element,	/*Elemento a ser inserido, do tipo _type*/ char   format)/*Caractere que indica a forma de inserção*/	{
+
+		void 	*aux1 = NULL;
+		void	*aux2 = NULL;
+
+
+		switch (format){
+			case 'C':
+				//alocar o elemento a ser inserido
+				aux1 = malloc (sizeof(C_list));
+
+				//typecasting para Cidade
+				if ((*target) == NULL){
+					((C_list*) aux1)->current 	= element;
+					((C_list*) aux1)->next		= NULL;
+					(*target) 					= (C_list*) aux1;
+
+				}else{
+					aux2 = (*target);
+
+					while ( ((C_list*) aux2)->next != NULL)
+						aux2 = ((C_list*) aux2)->next;
+
+					((C_list*) aux2)->next = ((C_list*) aux1);
+				}
+
+				break;
+
+			//case 'G':
+
+			//case 'I':
+
+			//case 'A':
+
+			default: return ERROR_FORMAT;
+				//definir ERROR_FORMAT
+		}
+
+		return FUNCTION_OK;
+
+}
 //Main para testes dos arcabouços automatizados de teste...
 
 int main(int argc, char const *argv[])

@@ -30,3 +30,5 @@
 	*/
 
 
+
+#define ERROR_FORMAT -5
