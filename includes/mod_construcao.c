@@ -7,13 +7,19 @@
 
 // ola
 
+int push_list(C_list**,C_type*);
+
+static int counterC = 0;
+
 int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
 	char linha[120];
-
+	
 	//C_list *c_aux1, *c_aux2;
 
 	
+
+		
 	while(( fgets(linha, 120, stream)) != NULL){
 
 		
@@ -23,8 +29,7 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 
 			case 'C':
 				// Pegamos a linha e inserimos a entidade na lista
-				c_build (linha, c);
-				
+				c_build (linha, c );
 				break;
 
 			case 'G':
@@ -68,7 +73,7 @@ int c_build(char* linha, C_list** output ){
 	
 	
 
-	aux_list 		= (*output); 
+	//aux_list 		= (*output); 
 	aux_list 		= (C_list*) malloc(sizeof(C_list));
 	aux_list->current	= (C_type*) malloc(sizeof(C_type));
 	/*//aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
@@ -116,7 +121,10 @@ int c_build(char* linha, C_list** output ){
 
 	aux_list->next 		= NULL;
 
-	(*output) = aux_list;
+	//(*output) = aux_list;
+
+	push_list(output, aux_list->current);
+
 	printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->cost);
 
 	return FUNCTION_OK;
@@ -350,7 +358,7 @@ int i_build(char* linha, I_list** output){
 	aux_list->current 	= aux;
 
 	*/
-	?
+	
 	aux_list->next 		= NULL;
 
 	(*output) = aux_list;
@@ -361,43 +369,49 @@ int i_build(char* linha, I_list** output){
 }
 
 
-push_list  (void** target, 	/*Entidade tipo _list, onde será inserido o elemento*/ void*  element,	/*Elemento a ser inserido, do tipo _type*/ char   format)/*Caractere que indica a forma de inserção*/	{
+int push_list  (C_list ** target, 	/*Entidade tipo _list, onde será inserido o elemento*/ C_type*  element)	{
 
-		void 	*aux1 = NULL;
-		void	*aux2 = NULL;
+		// push_list(*output, aux_list->current);
+	
+		C_list	*aux1 = NULL;
+		C_list	*aux2 = NULL;
 
 
-		switch (format){
-			case 'C':
+
 				//alocar o elemento a ser inserido
-				aux1 = malloc (sizeof(C_list));
+				aux1 = (C_list*) malloc (sizeof(C_list));
 
-				//typecasting para Cidade
-				if ((*target) == NULL){
-					((C_list*) aux1)->current 	= element;
-					((C_list*) aux1)->next		= NULL;
-					(*target) 					= (C_list*) aux1;
+					if(counterC==0){
+						printf("Counter era 0\n");
+						(*target)->next=NULL;
+						counterC=1;
+						printf("%d\n", counterC );
+					}
 
-				}else{
+
+
+					aux1->current = element;
+					aux1->next = (*target);
+					(*target)=aux1;
+
+					
+
+					/*
 					aux2 = (*target);
 
-					while ( ((C_list*) aux2)->next != NULL)
-						aux2 = ((C_list*) aux2)->next;
 
-					((C_list*) aux2)->next = ((C_list*) aux1);
-				}
+					
+					printf("ta deliciosa essa suruba\n");
 
-				break;
+					while ( (aux2)->next != NULL){
+					
+						(aux2) = (aux2)->next;
+					
+					}
+					printf("kbei a suruba\n");
+					(aux2)->next = (aux1);
+				*/
 
-			//case 'G':
-
-			//case 'I':
-
-			//case 'A':
-
-			default: return ERROR_FORMAT;
-				//definir ERROR_FORMAT
-		}
 
 		return FUNCTION_OK;
 
@@ -413,8 +427,9 @@ int main(int argc, char const *argv[])
 
 
 	C_list** c;
-	c=(C_list**) malloc(sizeof(C_list));
-		
+	(c)=(C_list**) malloc(sizeof(C_list));
+	//(*c)=(C_list*) malloc(sizeof(C_list));
+	//(*c)->next=NULL;
 
 	A_list** a;
 	a=(A_list**) malloc(sizeof(A_list));
@@ -429,6 +444,16 @@ int main(int argc, char const *argv[])
 	printf("Buildei tudo.\n");
 	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
 
+	C_list** aux;
+
+	printf("\n\n\nVamos agora imprimir a lista de Cidades: \n");
+
+	//for(aux=c; (*aux)->next != NULL; (*aux)=(*aux)->next)
+	aux =c;
+	do{
+		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux)->current->nome,(*aux)->current->x_pos, (*aux)->current->y_pos, (*aux)->current->cost);
+		(*aux) = (*aux)->next;
+	}while((*aux)->next != NULL);
 
 	fclose(ptr);
 

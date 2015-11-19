@@ -4,6 +4,8 @@ C Galois 55 60 750
 G Nietzsche 10 20 30 400
 G Catarse 12 22 31 90
 A Adaptador 4 5
+C CidadeDeVrunin 11 12 13
 A Carlao 40 43
 I Goku 10 20 2 10 1000 0.05 5 10
 I Fake 13 12 0 1 100 0.9 10 100
+C SimCity 35 13 1302
