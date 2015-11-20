@@ -9,7 +9,8 @@
 
 //int push_list(C_list**,C_type*);
 
-static int counterC = 0;	// Variavel global para sabermos se estamos na primeira insercao na lista de cidades
+static int counter[] = {0,0,0,0};	// Variavel global para sabermos se estamos na primeira insercao na lista de cada respectiva entidade
+
 
 int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
@@ -120,18 +121,16 @@ int c_build(char* linha, C_list** output ){
 	//push_list(output, aux_list->current);  <--- se ainda houvesse funcao push_list ela ficaria aqui
 
 		C_list	*aux1 = NULL;
-		C_list	*aux2 = NULL;
+		//C_list	*aux2 = NULL;
 
 
 
 		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
 		aux1 = (C_list*) malloc (sizeof(C_list));
 
-			if(counterC==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-				printf("Counter era 0\n");
+			if(counter[0]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
 				(*output)->next=NULL;
-				counterC=1;
-				printf("%d\n", counterC );
+				counter[0]=1;
 				}
 
 
@@ -209,9 +208,23 @@ int g_build(char* linha, G_list** output){
 
 	*/
 	
-	aux_list->next 		= NULL;
+	// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
+	G_list* aux1 = NULL;
+	aux1 = (G_list*) malloc (sizeof(G_list));
 
-	(*output) = aux_list;
+		if(counter[1]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
+			(*output)->next=NULL;
+			counter[1]=1;
+			}
+
+
+
+		aux1->current = aux_list->current;
+		aux1->next = (*output);
+		(*output)=aux1;	
+
+
+
 	printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->production, (*output)->current->cost);
 	return FUNCTION_OK;
 
@@ -268,14 +281,23 @@ int a_build(char* linha, A_list** output){
 
 	}
 
-	/*aux_list 			= (C_list*) malloc(sizeof(C_list));
-	aux_list->current 	= aux;
+	A_list	*aux1 = NULL;
+		//C_list	*aux2 = NULL;
 
-	*/
-	
-	aux_list->next 		= NULL;
 
-	(*output) = aux_list;
+
+		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
+		aux1 = (A_list*) malloc (sizeof(A_list));
+
+			if(counter[2]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
+				(*output)->next=NULL;
+				counter[2]=1;
+				}
+
+			aux1->current = aux_list->current;
+			aux1->next = (*output);
+			(*output)=aux1;
+
 	printf("Adaptador: %s xpos: %d  ypos: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos);
 	return FUNCTION_OK;
 
@@ -376,18 +398,112 @@ int i_build(char* linha, I_list** output){
 
 	*/
 	
-	aux_list->next 		= NULL;
+	I_list	*aux1 = NULL;
+		//C_list	*aux2 = NULL;
 
-	(*output) = aux_list;
+		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
+		aux1 = (I_list*) malloc (sizeof(I_list));
+
+			if(counter[3]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
+				(*output)->next=NULL;
+				counter[3]=1;
+				}
+
+			aux1->current = aux_list->current;
+			aux1->next = (*output);
+			(*output)=aux1;
+
 	printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*output)->current->nome,(*output)->current->x_start_pos, (*output)->current->y_start_pos, (*output)->current->x_final_pos, (*output)->current->y_final_pos, (*output)->current->max_capacity, (*output)->current->fault_chance, (*output)->current->time_main, (*output)->current->cost_main);
 	
 	return FUNCTION_OK;
 
 }
 
-/*  GRILAO , comentei essa funcao pois ela ficou bem simples e agora esta sendo inserido em cada build individualmente. O que vc acha?
 
-int push_list  (C_list ** target, 	//Entidade tipo _list, onde será inserido o elemento
+int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
+
+	C_list** aux1;
+	G_list** aux2;
+	A_list** aux3;
+	I_list** aux4;
+
+	printf("\nLista de Cidades\n");
+	for ( aux1= (c) ; (*aux1)->next != NULL ; (*aux1)=(*aux1)->next){
+		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux1)->current->nome,(*aux1)->current->x_pos, (*aux1)->current->y_pos, (*aux1)->current->cost);
+		free((*aux1)->current);
+		free(*aux1);
+	}
+	printf("\nLista de Geradores\n");
+	for ( (aux2)= (g) ; (*aux2)->next != NULL ; (*aux2)=(*aux2)->next){
+		printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*aux2)->current->nome,(*aux2)->current->x_pos, (*aux2)->current->y_pos, (*aux2)->current->production, (*aux2)->current->cost);
+		free((*aux2)->current);
+		free(*aux2);
+	}
+	printf("\nLista de Adaptadores\n");
+	for ( (aux3) = (a) ; (*aux3)->next != NULL ; (*aux3)=(*aux3)->next){
+		printf("Adaptador: %s xpos: %d  ypos: %d  \n", (*aux3)->current->nome,(*aux3)->current->x_pos, (*aux3)->current->y_pos);
+		free((*aux3)->current);
+		free(*aux3);
+	}
+	printf("\nLista de Interconexoes\n");
+	for ( (aux4)= (i) ; (*aux4)->next != NULL ; (*aux4)=(*aux4)->next){
+		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*aux4)->current->nome,(*aux4)->current->x_start_pos, (*aux4)->current->y_start_pos, (*aux4)->current->x_final_pos, (*aux4)->current->y_final_pos, (*aux4)->current->max_capacity, (*aux4)->current->fault_chance, (*aux4)->current->time_main, (*aux4)->current->cost_main);
+		free((*aux4)->current);
+		free(*aux4);
+	}
+}
+
+//Main para testes dos arcabouços automatizados de teste...
+
+
+
+
+int main(int argc, char const *argv[]){
+	FILE* ptr= fopen("teste.txt","r");
+	
+	G_list** g;
+	g=(G_list**) malloc(sizeof(G_list));
+
+
+	C_list** c;
+	(c)=(C_list**) malloc(sizeof(C_list));
+	//(*c)=(C_list*) malloc(sizeof(C_list));	// <-- Isso se chama desespero. Ignore.
+	//(*c)->next=NULL;
+
+	A_list** a;
+	a=(A_list**) malloc(sizeof(A_list));
+
+	I_list** i;
+	i=(I_list**) malloc(sizeof(I_list));
+
+
+
+	
+	build_all(ptr,c,g,i,a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
+
+	printf("Buildei tudo.\n");
+	//Aqui imprimimos a lista inteira so pra ter certeza q tudo esta certo.
+
+	print_lists(c,g,i,a);	// ATENCAO GRILÁO - - - Afuncao print_listas imprime as listas e libera a memoria conforme vai printando. Veja se esta certo p favor
+	/*
+	for(aux=i; (*aux)->next != NULL; (*aux)=(*aux)->next){
+		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*aux)->current->nome,(*aux)->current->x_start_pos, (*aux)->current->y_start_pos, (*aux)->current->x_final_pos, (*aux)->current->y_final_pos, (*aux)->current->max_capacity, (*aux)->current->fault_chance, (*aux)->current->time_main, (*aux)->current->cost_main);
+		free((*aux)->current);
+		free(*aux);
+
+	}
+	*/
+
+	fclose(ptr);
+
+	printf("End of Execution\n");
+	return 0;
+}
+
+
+/*  GRILAO , comentei essa funcao pois ela ficou bem simples e agora esta sendo inserido em cada build individualmente. O que vc acha?*/
+
+/*int push_list  (C_list ** target, 	//Entidade tipo _list, onde será inserido o elemento
 		 C_type*  element)	{
 
 		// push_list(*output, aux_list->current);
@@ -437,68 +553,3 @@ int push_list  (C_list ** target, 	//Entidade tipo _list, onde será inserido o 
 }
 
 */
-
-//Main para testes dos arcabouços automatizados de teste...
-
-int main(int argc, char const *argv[])
-{
-	FILE* ptr= fopen("teste.txt","r");
-	
-	G_list** g;
-	g=(G_list**) malloc(sizeof(G_list));
-
-
-	C_list** c;
-	(c)=(C_list**) malloc(sizeof(C_list));
-	//(*c)=(C_list*) malloc(sizeof(C_list));	// <-- Isso se chama desespero. Ignore.
-	//(*c)->next=NULL;
-
-	A_list** a;
-	a=(A_list**) malloc(sizeof(A_list));
-
-	I_list** i;
-	i=(I_list**) malloc(sizeof(I_list));
-
-
-
-	
-	build_all(ptr,c,g,i,a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
-
-	printf("Buildei tudo.\n");
-	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
-
-	C_list** aux; // Usaremos aqui para percorrer a lista e imprimir os valores para checar se esta certo
-
-	printf("\n\n\nVamos agora imprimir a lista de Cidades: \n");
-
-	//Aqui imprimimos a lista inteira so pra ter certeza q tudo esta certo.
-
-	for(aux=c; (*aux)->next != NULL; (*aux)=(*aux)->next){
-		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux)->current->nome,(*aux)->current->x_pos, (*aux)->current->y_pos, (*aux)->current->cost);
-		free((*aux)->current);
-		free(*aux);
-
-	}
-	
-	//Nao sei se esses frees estao certos....
-	fclose(ptr);
-
-	free((*c)->current);
-	free((*c));
-	free(c);
-
-	free((*g)->current);
-	free(*g);
-	free(g);
-
-	free((*a)->current);
-	free(*a);
-	free(a);
-
-	free((*i)->current);
-	free(*i);
-	free(i);
-
-	printf("End of Execution\n");
-	return 0;
-}
