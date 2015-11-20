@@ -7,7 +7,7 @@
 
 
 
-int push_list(C_list**,C_type*);
+//int push_list(C_list**,C_type*);
 
 static int counterC = 0;	// Variavel global para sabermos se estamos na primeira insercao na lista de cidades
 
