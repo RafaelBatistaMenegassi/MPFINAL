@@ -5,11 +5,11 @@
 #include "./mod_def/essential_defs.h"
 #include "./mod_def/errorcodes.h"
 
-// ola
+
 
 int push_list(C_list**,C_type*);
 
-static int counterC = 0;
+static int counterC = 0;	// Variavel global para sabermos se estamos na primeira insercao na lista de cidades
 
 int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
@@ -76,7 +76,7 @@ int c_build(char* linha, C_list** output ){
 	//aux_list 		= (*output); 
 	aux_list 		= (C_list*) malloc(sizeof(C_list));
 	aux_list->current	= (C_type*) malloc(sizeof(C_type));
-	/*//aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
+	/*  aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  Acabamos abolindo essa variavel :( */
 	
 	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
 		return ERROR_STREAM;
@@ -114,16 +114,33 @@ int c_build(char* linha, C_list** output ){
 				//Defines regular resource cost
 	}
 
-	/*aux_list 			= (C_list*) malloc(sizeof(C_list));
-	aux_list->current 	= aux;
-
-	*/
 
 	aux_list->next 		= NULL;
 
-	//(*output) = aux_list;
+	//push_list(output, aux_list->current);  <--- se ainda houvesse funcao push_list ela ficaria aqui
 
-	push_list(output, aux_list->current);
+		C_list	*aux1 = NULL;
+		C_list	*aux2 = NULL;
+
+
+
+		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
+		aux1 = (C_list*) malloc (sizeof(C_list));
+
+			if(counterC==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
+				printf("Counter era 0\n");
+				(*output)->next=NULL;
+				counterC=1;
+				printf("%d\n", counterC );
+				}
+
+
+
+			aux1->current = aux_list->current;
+			aux1->next = (*output);
+			(*output)=aux1;
+
+					// Push_lista vinha ate aqui anteriormente.
 
 	printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->cost);
 
@@ -368,8 +385,10 @@ int i_build(char* linha, I_list** output){
 
 }
 
+/*  GRILAO , comentei essa funcao pois ela ficou bem simples e agora esta sendo inserido em cada build individualmente. O que vc acha?
 
-int push_list  (C_list ** target, 	/*Entidade tipo _list, onde será inserido o elemento*/ C_type*  element)	{
+int push_list  (C_list ** target, 	//Entidade tipo _list, onde será inserido o elemento
+		 C_type*  element)	{
 
 		// push_list(*output, aux_list->current);
 	
@@ -410,12 +429,15 @@ int push_list  (C_list ** target, 	/*Entidade tipo _list, onde será inserido o 
 					}
 					printf("kbei a suruba\n");
 					(aux2)->next = (aux1);
-				*/
+				
 
 
 		return FUNCTION_OK;
 
 }
+
+*/
+
 //Main para testes dos arcabouços automatizados de teste...
 
 int main(int argc, char const *argv[])
@@ -428,7 +450,7 @@ int main(int argc, char const *argv[])
 
 	C_list** c;
 	(c)=(C_list**) malloc(sizeof(C_list));
-	//(*c)=(C_list*) malloc(sizeof(C_list));
+	//(*c)=(C_list*) malloc(sizeof(C_list));	// <-- Isso se chama desespero. Ignore.
 	//(*c)->next=NULL;
 
 	A_list** a;
@@ -440,21 +462,25 @@ int main(int argc, char const *argv[])
 
 
 	
-	build_all(ptr,c,g,i,a);
+	build_all(ptr,c,g,i,a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
+
 	printf("Buildei tudo.\n");
 	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*c)->current->nome,(*c)->current->x_pos, (*c)->current->y_pos, (*c)->current->cost);
 
-	C_list** aux;
+	C_list** aux; // Usaremos aqui para percorrer a lista e imprimir os valores para checar se esta certo
 
 	printf("\n\n\nVamos agora imprimir a lista de Cidades: \n");
 
-	//for(aux=c; (*aux)->next != NULL; (*aux)=(*aux)->next)
-	aux =c;
-	do{
-		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux)->current->nome,(*aux)->current->x_pos, (*aux)->current->y_pos, (*aux)->current->cost);
-		(*aux) = (*aux)->next;
-	}while((*aux)->next != NULL);
+	//Aqui imprimimos a lista inteira so pra ter certeza q tudo esta certo.
 
+	for(aux=c; (*aux)->next != NULL; (*aux)=(*aux)->next){
+		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux)->current->nome,(*aux)->current->x_pos, (*aux)->current->y_pos, (*aux)->current->cost);
+		free((*aux)->current);
+		free(*aux);
+
+	}
+	
+	//Nao sei se esses frees estao certos....
 	fclose(ptr);
 
 	free((*c)->current);
