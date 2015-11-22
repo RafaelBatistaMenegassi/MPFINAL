@@ -432,8 +432,8 @@ int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 	printf("\nLista de Cidades\n");
 	for ( aux1= (c) ; (*aux1)->next != NULL ; (*aux1)=(*aux1)->next){
 		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux1)->current->nome,(*aux1)->current->x_pos, (*aux1)->current->y_pos, (*aux1)->current->cost);
-		free((*aux1)->current);
-		free(*aux1);
+		//free((*aux1)->current);
+		//free(*aux1);
 	}
 	printf("\nLista de Geradores\n");
 	for ( (aux2)= (g) ; (*aux2)->next != NULL ; (*aux2)=(*aux2)->next){
@@ -458,7 +458,27 @@ int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 //Main para testes dos arcabouços automatizados de teste...
 
 
+int c_destroy (C_list** target){
+	//c_type* current;
+	C_list* subtarget;
+	if (target == NULL)
+		return ERROR_STREAM;
+	else if ((*target) == NULL)
+		return ERROR_DATA;
+	else{
+		subtarget = (*target);
+		if(subtarget->next != NULL)
+			c_destroy(&(subtarget->next));
 
+			//liberar campos
+			free(subtarget->current->nome);
+			free(subtarget->current);
+			free(subtarget);
+			(*target) = NULL;
+
+		return FUNCTION_OK;
+	}
+}
 
 int main(int argc, char const *argv[]){
 	FILE* ptr= fopen("teste.txt","r");
@@ -495,6 +515,12 @@ int main(int argc, char const *argv[]){
 
 	}
 	*/
+
+	c_destroy(c);
+	if((*c) == NULL){
+
+		printf("Fucntion OK\n");
+	}
 
 	fclose(ptr);
 

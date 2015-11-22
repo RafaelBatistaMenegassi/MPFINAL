@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "mod_construcao.c"
 
 #include "../mod_def/essential_defs.h"
 #include "../mod_def/errorcodes.h"

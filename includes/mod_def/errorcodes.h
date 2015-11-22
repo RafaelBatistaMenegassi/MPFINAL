@@ -32,3 +32,5 @@
 
 
 #define ERROR_FORMAT -5
+
+#define ERROR_DATA -6
