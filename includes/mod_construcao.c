@@ -422,6 +422,8 @@ int i_build(char* linha, I_list** output){
 
 int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 
+	/* Imprime e libera as listas de uma só vez. */
+
 	C_list** aux1;
 	G_list** aux2;
 	A_list** aux3;
