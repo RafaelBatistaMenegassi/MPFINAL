@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include "mod_construcao.c"
 
-#include "../mod_def/essential_defs.h"
-#include "../mod_def/errorcodes.h"
+//#include "../mod_def/essential_defs.h"
+//#include "../mod_def/errorcodes.h"
 
 
 	// Functions
@@ -19,3 +19,7 @@ int g_build(char* , G_list**);
 int a_build(char* , A_list**);
 
 int i_build(char* , I_list**);
+
+int print_lists(C_list** , G_list** , I_list** , A_list** );
+
+int destroy_all (C_list** , G_list** , A_list** , I_list** );

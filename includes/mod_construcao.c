@@ -419,165 +419,122 @@ int i_build(char* linha, I_list** output){
 
 }
 
-
 int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 
 	/* Imprime e libera as listas de uma só vez. */
 
-	C_list** aux1;
-	G_list** aux2;
-	A_list** aux3;
-	I_list** aux4;
+	C_list* aux1;
+	G_list* aux2;
+	A_list* aux3;
+	I_list* aux4;
 
 	printf("\nLista de Cidades\n");
-	for ( aux1= (c) ; (*aux1)->next != NULL ; (*aux1)=(*aux1)->next){
-		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*aux1)->current->nome,(*aux1)->current->x_pos, (*aux1)->current->y_pos, (*aux1)->current->cost);
-		//free((*aux1)->current);
-		//free(*aux1);
+	for ( aux1= (*c) ; aux1->next != NULL ; aux1=aux1->next){
+		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", aux1->current->nome,aux1->current->x_pos, aux1->current->y_pos, aux1->current->cost);
+		//free(aux1->current);
+		//freeaux1);
 	}
 	printf("\nLista de Geradores\n");
-	for ( (aux2)= (g) ; (*aux2)->next != NULL ; (*aux2)=(*aux2)->next){
-		printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*aux2)->current->nome,(*aux2)->current->x_pos, (*aux2)->current->y_pos, (*aux2)->current->production, (*aux2)->current->cost);
-		free((*aux2)->current);
-		free(*aux2);
+	for ( (aux2)= (*g) ; aux2->next != NULL ; aux2=aux2->next){
+		printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", aux2->current->nome,aux2->current->x_pos, aux2->current->y_pos, aux2->current->production, aux2->current->cost);
+		//free(aux2->current);
+		//freeaux2);
 	}
 	printf("\nLista de Adaptadores\n");
-	for ( (aux3) = (a) ; (*aux3)->next != NULL ; (*aux3)=(*aux3)->next){
-		printf("Adaptador: %s xpos: %d  ypos: %d  \n", (*aux3)->current->nome,(*aux3)->current->x_pos, (*aux3)->current->y_pos);
-		free((*aux3)->current);
-		free(*aux3);
+	for ( (aux3) = (*a) ; aux3->next != NULL ; aux3=aux3->next){
+		printf("Adaptador: %s xpos: %d  ypos: %d  \n", aux3->current->nome,aux3->current->x_pos, aux3->current->y_pos);
+		//free(aux3->current);
+		//freeaux3);
 	}
 	printf("\nLista de Interconexoes\n");
-	for ( (aux4)= (i) ; (*aux4)->next != NULL ; (*aux4)=(*aux4)->next){
-		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*aux4)->current->nome,(*aux4)->current->x_start_pos, (*aux4)->current->y_start_pos, (*aux4)->current->x_final_pos, (*aux4)->current->y_final_pos, (*aux4)->current->max_capacity, (*aux4)->current->fault_chance, (*aux4)->current->time_main, (*aux4)->current->cost_main);
-		free((*aux4)->current);
-		free(*aux4);
+	for ( (aux4)= (*i) ; aux4->next != NULL ; aux4=aux4->next){
+		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", aux4->current->nome,aux4->current->x_start_pos, aux4->current->y_start_pos, aux4->current->x_final_pos, aux4->current->y_final_pos, aux4->current->max_capacity, aux4->current->fault_chance, aux4->current->time_main, aux4->current->cost_main);
+		//free(aux4->current);
+		//freeaux4);
 	}
+
+	return FUNCTION_OK;
 }
 
 //Main para testes dos arcabouços automatizados de teste...
 
-
-int c_destroy (C_list** target){
+int destroy_all (C_list** c, G_list** g, A_list** a, I_list** i){
 	//c_type* current;
-	C_list* subtarget;
-	if (target == NULL)
+
+	C_list* subtargetC;
+	G_list* subtargetG;
+	A_list* subtargetA;
+	I_list* subtargetI;
+
+	if (c == NULL)
 		return ERROR_STREAM;
-	else if ((*target) == NULL)
+	else if ((*c) == NULL)
 		return ERROR_DATA;
 	else{
-		subtarget = (*target);
-		if(subtarget->next != NULL)
-			c_destroy(&(subtarget->next));
+		subtargetC = (*c);
+		if(subtargetC->next != NULL)
+			destroy_all(&(subtargetC->next), NULL   , NULL  , NULL   );
+		 
 
-			//liberar campos
-			free(subtarget->current->nome);
-			free(subtarget->current);
-			free(subtarget);
-			(*target) = NULL;
+		//liberar campos
+		free(subtargetC->current->nome);
+		free(subtargetC->current);
+		free(subtargetC);
 
-		return FUNCTION_OK;
-	}
-}
-
-int main(int argc, char const *argv[]){
-	FILE* ptr= fopen("teste.txt","r");
-	
-	G_list** g;
-	g=(G_list**) malloc(sizeof(G_list));
-
-
-	C_list** c;
-	(c)=(C_list**) malloc(sizeof(C_list));
-	//(*c)=(C_list*) malloc(sizeof(C_list));	// <-- Isso se chama desespero. Ignore.
-	//(*c)->next=NULL;
-
-	A_list** a;
-	a=(A_list**) malloc(sizeof(A_list));
-
-	I_list** i;
-	i=(I_list**) malloc(sizeof(I_list));
-
-
-
-	
-	build_all(ptr,c,g,i,a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
-
-	printf("Buildei tudo.\n");
-	//Aqui imprimimos a lista inteira so pra ter certeza q tudo esta certo.
-
-	print_lists(c,g,i,a);	// ATENCAO GRILÁO - - - Afuncao print_listas imprime as listas e libera a memoria conforme vai printando. Veja se esta certo p favor
-	/*
-	for(aux=i; (*aux)->next != NULL; (*aux)=(*aux)->next){
-		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*aux)->current->nome,(*aux)->current->x_start_pos, (*aux)->current->y_start_pos, (*aux)->current->x_final_pos, (*aux)->current->y_final_pos, (*aux)->current->max_capacity, (*aux)->current->fault_chance, (*aux)->current->time_main, (*aux)->current->cost_main);
-		free((*aux)->current);
-		free(*aux);
-
-	}
-	*/
-
-	c_destroy(c);
-	if((*c) == NULL){
-
-		printf("Fucntion OK\n");
+		(*c) = NULL;
+		
 	}
 
-	fclose(ptr);
 
-	printf("End of Execution\n");
-	return 0;
+	if (g == NULL)
+		return ERROR_STREAM;
+	else if ((*g) == NULL)
+		return ERROR_DATA;
+	else{
+		subtargetG = (*g);
+		if(subtargetG->next != NULL)
+			destroy_all( NULL , &(subtargetG->next)   , NULL  , NULL   );
+
+		//liberar campos
+		free(subtargetG->current->nome);
+		free(subtargetG->current);
+		free(subtargetG);
+		(*g) = NULL;
+	}
+
+
+	if (i == NULL)
+		return ERROR_STREAM;
+	else if ((*i) == NULL)
+		return ERROR_DATA;
+	else{
+		subtargetI = (*i);
+		if(subtargetI->next != NULL)
+			destroy_all( NULL , NULL , NULL ,  &(subtargetI->next)  );
+		//liberar campos
+		free(subtargetI->current->nome);
+		free(subtargetI->current);
+		free(subtargetI);
+		(*i) = NULL;
+	}
+
+
+	if (a == NULL)
+		return ERROR_STREAM;
+	else if ((*a) == NULL)
+		return ERROR_DATA;
+	else{
+		subtargetA = (*a);
+		if(subtargetA->next != NULL)
+			destroy_all( NULL, NULL ,&(subtargetA->next), NULL);
+
+		//liberar campos
+		free(subtargetA->current->nome);
+		free(subtargetA->current);
+		free(subtargetA);
+		(*a) = NULL;
+	}
+
+	// int grilao = destroy_all(...);
+	return FUNCTION_OK;
 }
-
-
-/*  GRILAO , comentei essa funcao pois ela ficou bem simples e agora esta sendo inserido em cada build individualmente. O que vc acha?*/
-
-/*int push_list  (C_list ** target, 	//Entidade tipo _list, onde será inserido o elemento
-		 C_type*  element)	{
-
-		// push_list(*output, aux_list->current);
-	
-		C_list	*aux1 = NULL;
-		C_list	*aux2 = NULL;
-
-
-
-				//alocar o elemento a ser inserido
-				aux1 = (C_list*) malloc (sizeof(C_list));
-
-					if(counterC==0){
-						printf("Counter era 0\n");
-						(*target)->next=NULL;
-						counterC=1;
-						printf("%d\n", counterC );
-					}
-
-
-
-					aux1->current = element;
-					aux1->next = (*target);
-					(*target)=aux1;
-
-					
-
-					/*
-					aux2 = (*target);
-
-
-					
-					printf("ta deliciosa essa suruba\n");
-
-					while ( (aux2)->next != NULL){
-					
-						(aux2) = (aux2)->next;
-					
-					}
-					printf("kbei a suruba\n");
-					(aux2)->next = (aux1);
-				
-
-
-		return FUNCTION_OK;
-
-}
-
-*/
