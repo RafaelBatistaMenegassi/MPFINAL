@@ -5,7 +5,8 @@
 //#include "includes/mod_def/essential_defs.h"
 //#include "includes/mod_def/errorcodes.h"
 
-#include "includes/mod_construcao.h"
+#include "includes/mod_con/mod_construcao.h"
+#include "includes/mod_process/mod_process.h"
 
 #define ENTRADA "includes/teste.txt"
 #define SAIDA "log.txt"
@@ -32,9 +33,9 @@ int main(int argc, char const *argv[]){
 	i=(I_list*) malloc(sizeof(I_list));
 	i = NULL;
 
-	assert(i == NULL);
+	assert( (i == NULL)  && (g == NULL) && (c == NULL) &&(a == NULL) ); // Assertiva para verificar a inicializacao correta das listas de entidades.
 
-	printf("Declarei\n");
+	printf("Passei no assert - Declarei\n");
 	
 
 	build_all(entrada,&c,&g,&i,&a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
@@ -53,12 +54,24 @@ int main(int argc, char const *argv[]){
 
 	saida = fopen(SAIDA, "w");
 	
-	printf("\n\nAqui geramos o relatorio do Edercinho Sepa\n");
+	printf("\n\n-------LOG DE ATIVIDADES-------\n\n");
 
+	log_run(saida,&c,&g,&i,&a);
 
 	/*
 
-	
+		Tempo total da simulação:  20 segundos 
+		Custo total na simulação:  160000 
+		Total de geradores: 5 
+		Energia total  gerada: 15000 
+		Total de cidades : 10 
+		Energia total gasta pelas cidades: 10000 
+		Tamanho total das interconexões: 100 km 
+		Número de falhas nas interconexões: 3 
+		Número de cidades que ficaram com menos recurso que o necessário: 3 
+		Tempo que ficaram sem recurso: 60 segundos 
+		Número de cidades que ficaram com menos de 30% dos recursos : 1  
+		Tempo que ficaram com menos de 30% de recurso: 20 segundos   
 
 	*/
 
@@ -69,6 +82,9 @@ int main(int argc, char const *argv[]){
 	destroy((void**) &c, 'C');
 	destroy((void**) &a, 'A');
 	destroy((void**) &i, 'I');
+
+
+
 	printf("\nEntidades Destruidas\n");
 
 

@@ -24,7 +24,7 @@ typedef struct Gerador{
 	int production;
 	int cost;
 
-	struct Interconexao* next;
+	struct Interconexao* out;
 
 	}	G_type;
 
@@ -54,15 +54,11 @@ typedef struct Adaptador{
 	char nome[NAMEMAX];
 	int x_pos;
 	int y_pos;
+	short int status;
 
 	struct Interconexao** out;
 
 	}	A_type;
-
-
-
-
-
 
 
 

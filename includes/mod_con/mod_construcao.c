@@ -2,67 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "./mod_def/essential_defs.h"
-#include "./mod_def/errorcodes.h"
+#include "../mod_def/essential_defs.h"
+#include "../mod_def/errorcodes.h"
 
 
 
 //int push_list(C_list**,C_type*);
-
-
-
-int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
-	
-	char linha[120];
-	
-	/*
-	C_list* c_aux = *c;
-	C_list* c_aux2 = *c;
-
-	G_list* g_aux = *g;
-	A_list* a_aux = *a;
-	I_list* i_aux = *i;
-	*/
-		
-	while(( fgets(linha, 120, stream)) != NULL){
-
-		
-		//printf("%s\n", linha );
-		
-		switch (linha[0]) {
-
-			case 'C':
-				// Pegamos a linha e inserimos a entidade na lista
-				c_build(linha,c);
-				break;
-
-			case 'G':
-				// Pegamos a linha e inserimos a entidade na lista
-				g_build (linha, g);
-				
-				break;
-				
-			case 'I':
-				// Pegamos a linha e inserimos a entidade na lista
-				i_build (linha, i);
-				
-				break;
-
-			case 'A':
-				// Pegamos a linha e inserimos a entidade na lista
-				a_build (linha, a);
-				
-				break;
-
-			default:
-				return ERROR_STREAM;
-		}
-
-	}
-
-
-	return FUNCTION_OK;
-}
 
 int c_build(char* linha, C_list** output ){
 
@@ -179,12 +124,14 @@ int g_build(char* linha, G_list** output){
 			aux_list->current->cost = atoi (field);
 				//Defines regular generator cost
 	}
+	aux_list->current->out= NULL;
 
-aux_list->next= (*output);
-		(*output)=aux_list;
+	aux_list->next= (*output);
+	(*output)=aux_list;
 
 
 	printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->production, (*output)->current->cost);
+	
 	return FUNCTION_OK;
 
 }
@@ -240,16 +187,20 @@ int a_build(char* linha, A_list** output){
 
 	}
 
-	A_list	*aux1 = NULL;
-		//C_list	*aux2 = NULL;
+	aux_list->current->status = 0;
+
+	aux_list->current->out = NULL;
+
+	//A_list	*aux1 = NULL;
+	//C_list	*aux2 = NULL;
 
 
 
-		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
-		aux1 = (A_list*) malloc(sizeof(A_list));
+	// Alocar o elemento a ser inserido no fim da lista...
+	//	aux1 = (A_list*) malloc(sizeof(A_list));
 
-				aux_list->next= (*output);
-				(*output)=aux_list;
+	aux_list->next= (*output);
+	(*output)=aux_list;
 
 	printf("Adaptador: %s xpos: %d  ypos: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos);
 	return FUNCTION_OK;
@@ -350,75 +301,38 @@ int i_build(char* linha, I_list** output){
 	aux_list->current 	= aux;
 
 	*/
+
+	aux_list->current->adaptador = NULL;
+
+	aux_list->current->cidade = NULL;
 	
-	I_list	*aux1 = NULL;
-		//C_list	*aux2 = NULL;
+	//I_list	*aux1 = NULL;
+	//C_list	*aux2 = NULL;
 
-		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
-		/*aux1 = (I_list*) malloc(sizeof(I_list));
+	// Alocar o elemento a ser inserido no fim da lista...
+	/*aux1 = (I_list*) malloc(sizeof(I_list));
 
-				if(counter[3]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-				(*output)->next=NULL;
-				counter[3]=1;
-				
-				}
+	if(counter[3]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
+	(*output)->next=NULL;
+	counter[3]=1;
+	
+	}
 
 
 
-			aux1->current = aux_list->current;
-			aux1->next = (*output);
-			(*output)=aux1;
-			*/
+	aux1->current = aux_list->current;
+	aux1->next = (*output);
+	(*output)=aux1;
+	*/
 
-		aux_list->next = (*output);
-		(*output) = aux_list;
+	aux_list->next = (*output);
+	(*output) = aux_list;
 
 	printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*output)->current->nome,(*output)->current->x_start_pos, (*output)->current->y_start_pos, (*output)->current->x_final_pos, (*output)->current->y_final_pos, (*output)->current->max_capacity, (*output)->current->fault_chance, (*output)->current->time_main, (*output)->current->cost_main);
 	
 	return FUNCTION_OK;
 
 }
-
-int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
-
-	/* Imprime e libera as listas de uma só vez. */
-
-	C_list* aux1;
-	G_list* aux2;
-	A_list* aux3;
-	I_list* aux4;
-
-	printf("\nLista de Cidades\n");
-	for ( aux1= (*c) ; aux1 != NULL ; aux1=aux1->next){
-		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", aux1->current->nome,aux1->current->x_pos, aux1->current->y_pos, aux1->current->cost);
-		//free(aux1->current);
-		//freeaux1);
-	}
-	printf("\nLista de Geradores\n");
-	for ( (aux2)= (*g) ; aux2 != NULL ; aux2=aux2->next){
-		printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", aux2->current->nome,aux2->current->x_pos, aux2->current->y_pos, aux2->current->production, aux2->current->cost);
-		//free(aux2->current);
-		//freeaux2);
-	}
-	printf("\nLista de Adaptadores\n");
-	for ( (aux3) = (*a) ; aux3 != NULL ; aux3=aux3->next){
-		printf("Adaptador: %s xpos: %d  ypos: %d  \n", aux3->current->nome,aux3->current->x_pos, aux3->current->y_pos);
-		//free(aux3->current);
-		//freeaux3);
-	}
-	printf("\nLista de Interconexoes\n");
-	for ( (aux4)= (*i) ; aux4 != NULL ; aux4=aux4->next){
-		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", aux4->current->nome,aux4->current->x_start_pos, aux4->current->y_start_pos, aux4->current->x_final_pos, aux4->current->y_final_pos, aux4->current->max_capacity, aux4->current->fault_chance, aux4->current->time_main, aux4->current->cost_main);
-		//free(aux4->current);
-		//freeaux4);
-	}
-
-	return FUNCTION_OK;
-}
-
-//Main para testes dos arcabouços automatizados de teste...
-
-
 
 int destroy(void** target, char mode){
 	G_list* input_g = NULL;
@@ -429,11 +343,11 @@ int destroy(void** target, char mode){
 
 	switch (mode){
 		case 'G':
-			if (input_g == NULL)
-				return ERROR_STREAM;				//Evita segfault por conta da chamada seguinte
-
 
 			input_g = * (G_list**) target;			//TYPECASTING TÁ ROLANDO!! não mexa nessa linha
+
+			if (input_g == NULL)
+				return ERROR_STREAM;				//Evita segfault por conta da chamada seguinte
 
 
 
@@ -447,7 +361,7 @@ int destroy(void** target, char mode){
 			free(input_g->current);
 			free(input_g);
 
-			printf("free no G\n");
+		
 
 			input_g = NULL;
 			break;
@@ -460,7 +374,7 @@ int destroy(void** target, char mode){
 
 			if (input_c == NULL)
 				return ERROR_STREAM;				//Evita segfault por conta da chamada seguinte
-			else printf("nome: %s\n", input_c->current->nome);
+			
 			
 			//printf("free no C\n");
 			destroy ((void**) &(input_c->next), 'C');
@@ -520,6 +434,59 @@ int destroy(void** target, char mode){
 
 		default: return ERROR_FORMAT;
 	}
+
+	return FUNCTION_OK;
+}
+
+int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
+	
+	char linha[120];
+	
+	/*
+	C_list* c_aux = *c;
+	C_list* c_aux2 = *c;
+
+	G_list* g_aux = *g;
+	A_list* a_aux = *a;
+	I_list* i_aux = *i;
+	*/
+		
+	while(( fgets(linha, 120, stream)) != NULL){
+
+		
+		//printf("%s\n", linha );
+		
+		switch (linha[0]) {
+
+			case 'C':
+				// Pegamos a linha e inserimos a entidade na lista
+				c_build(linha,c);
+				break;
+
+			case 'G':
+				// Pegamos a linha e inserimos a entidade na lista
+				g_build (linha, g);
+				
+				break;
+				
+			case 'I':
+				// Pegamos a linha e inserimos a entidade na lista
+				i_build (linha, i);
+				
+				break;
+
+			case 'A':
+				// Pegamos a linha e inserimos a entidade na lista
+				a_build (linha, a);
+				
+				break;
+
+			default:
+				return ERROR_STREAM;
+		}
+
+	}
+
 
 	return FUNCTION_OK;
 }
