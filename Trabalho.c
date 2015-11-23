@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-//#include <assert.h>
+#include <assert.h>
 
 //#include "includes/mod_def/essential_defs.h"
 //#include "includes/mod_def/errorcodes.h"
@@ -16,22 +16,50 @@ int main(int argc, char const *argv[]){
 	
 	entrada = fopen(ENTRADA, "r");
 	
-	//assert(entrada!=NULL);
+	assert(entrada != NULL);
 
+	/*
+	
+		float **float_values;
+		//allocate memory for rows
+		float_values = (float**)malloc(4 *sizeof(float*));
+		//for each row allocate memory for columns
+		for(int i=0; i<4; i++)
+			{
+		   *(float_values+i) = (float*)malloc(3 *sizeof(float));
+			}
+
+	*/
 	//Criacao das Listas de Entidades
 	C_list** c;
-	(c)=(C_list**) malloc(sizeof(C_list));
 	
+	(c)=(C_list**) malloc(sizeof(C_list*));
+	(*c)=(C_list*) malloc(sizeof(C_list));
+	assert(c != NULL);
+	(*c)->next=NULL;
+	assert( ((*c)->next) == NULL );
+	printf("Passei o assert.\n");
+
 	G_list** g;
-	g=(G_list**) malloc(sizeof(G_list));
+	g=(G_list**) malloc(sizeof(G_list*));
+	(*g)=(G_list*) malloc(sizeof(G_list));
+	assert(g != NULL);
+	(*g)->next=NULL;
+	assert( ((*g)->next) == NULL );
 
 	I_list** i;
-	i=(I_list**) malloc(sizeof(I_list));
-		if ((*i) == NULL)
-			printf ("\n\ntreta");
+	i=(I_list**) malloc(sizeof(I_list*));
+	(*i)=(I_list*) malloc(sizeof(I_list));
+	assert(i != NULL);
+	(*i)->next=NULL;
+	assert( ((*i)->next) == NULL );
 
 	A_list** a;
-	a=(A_list**) malloc(sizeof(A_list));
+	a=(A_list**) malloc(sizeof(A_list*));
+	(*a)=(A_list*) malloc(sizeof(A_list));
+	assert(a != NULL);
+	(*a)->next=NULL;
+	assert( ((*a)->next) == NULL );
 
 	printf("Declarei\n");
 

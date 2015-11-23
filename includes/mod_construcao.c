@@ -126,18 +126,22 @@ int c_build(char* linha, C_list** output ){
 
 
 		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
-		aux1 = (C_list*) malloc (sizeof(C_list));
+		aux1 = (C_list*) malloc(sizeof(C_list));
 
 			if(counter[0]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-				(*output)->next=NULL;
+				
+				aux1->current = aux_list->current;
+				aux1->next = NULL;
+				(*output)=aux1;
 				counter[0]=1;
+				assert( (*output)->next == NULL );
+				}else{			
+				aux1->current = aux_list->current;
+				aux1->next = (*output);
+				(*output)=aux1;
+
 				}
-
-
-
-			aux1->current = aux_list->current;
-			aux1->next = (*output);
-			(*output)=aux1;
+				
 
 					// Push_lista vinha ate aqui anteriormente.
 
@@ -157,7 +161,7 @@ int g_build(char* linha, G_list** output){
 	
 	
 
-	aux_list 		= (*output); 
+	//aux_list 		= (*output); 
 	aux_list 		= (G_list*) malloc(sizeof(G_list));
 	aux_list->current	= (G_type*) malloc(sizeof(G_type));
 	/*//aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
@@ -210,19 +214,21 @@ int g_build(char* linha, G_list** output){
 	
 	// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
 	G_list* aux1 = NULL;
-	aux1 = (G_list*) malloc (sizeof(G_list));
+	aux1 = (G_list*) malloc(sizeof(G_list));
 
 		if(counter[1]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-			(*output)->next=NULL;
-			counter[1]=1;
-			}
+				
+				aux1->current = aux_list->current;
+				aux1->next = NULL;
+				(*output)=aux1;
+				counter[1]=1;
+				assert( (*output)->next == NULL );
+				}else{			
+				aux1->current = aux_list->current;
+				aux1->next = (*output);
+				(*output)=aux1;
 
-
-
-		aux1->current = aux_list->current;
-		aux1->next = (*output);
-		(*output)=aux1;	
-
+				}
 
 
 	printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->production, (*output)->current->cost);
@@ -241,9 +247,9 @@ int a_build(char* linha, A_list** output){
 	
 	
 
-	aux_list 		= (*output); 
-	aux_list 		= (A_list*) malloc(sizeof(A_list));
-	aux_list->current	= (A_type*) malloc(sizeof(A_type));
+	//aux_list 		= (*output); 
+	aux_list 		= (A_list*)malloc(sizeof(A_list));
+	aux_list->current	= (A_type*)malloc(sizeof(A_type));
 	/*//aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
 	
 	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
@@ -287,16 +293,21 @@ int a_build(char* linha, A_list** output){
 
 
 		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
-		aux1 = (A_list*) malloc (sizeof(A_list));
+		aux1 = (A_list*) malloc(sizeof(A_list));
 
 			if(counter[2]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-				(*output)->next=NULL;
+				
+				aux1->current = aux_list->current;
+				aux1->next = NULL;
+				(*output)=aux1;
 				counter[2]=1;
-				}
+				assert( (*output)->next == NULL );
+				}else{			
+				aux1->current = aux_list->current;
+				aux1->next = (*output);
+				(*output)=aux1;
 
-			aux1->current = aux_list->current;
-			aux1->next = (*output);
-			(*output)=aux1;
+				}
 
 	printf("Adaptador: %s xpos: %d  ypos: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos);
 	return FUNCTION_OK;
@@ -313,7 +324,7 @@ int i_build(char* linha, I_list** output){
 		*/
 
 
-	aux_list 		= (*output); 
+	//aux_list 		= (*output); 
 	aux_list 		= (I_list*) malloc(sizeof(I_list));
 	aux_list->current	= (I_type*) malloc(sizeof(I_type));
 	/* aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
@@ -402,17 +413,21 @@ int i_build(char* linha, I_list** output){
 		//C_list	*aux2 = NULL;
 
 		// Alocar o elemento a ser inserido no fim da lista...   GRIALAO!!!!!!!!! Passei a funcionalidade de push_lista para esses codigos aqui embaixo...
-		aux1 = (I_list*) malloc (sizeof(I_list));
+		aux1 = (I_list*) malloc(sizeof(I_list));
 
 			if(counter[3]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-				(*output)->next=NULL;
+				
+				aux1->current = aux_list->current;
+				aux1->next = NULL;
+				(*output)=aux1;
 				counter[3]=1;
+				assert( (*output)->next == NULL );
+				}else{			
+				aux1->current = aux_list->current;
+				aux1->next = (*output);
+				(*output)=aux1;
+
 				}
-
-			aux1->current = aux_list->current;
-			aux1->next = (*output);
-			(*output)=aux1;
-
 	printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", (*output)->current->nome,(*output)->current->x_start_pos, (*output)->current->y_start_pos, (*output)->current->x_final_pos, (*output)->current->y_final_pos, (*output)->current->max_capacity, (*output)->current->fault_chance, (*output)->current->time_main, (*output)->current->cost_main);
 	
 	return FUNCTION_OK;
