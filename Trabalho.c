@@ -16,68 +16,63 @@ int main(int argc, char const *argv[]){
 	
 	entrada = fopen(ENTRADA, "r");
 	
-	assert(entrada != NULL);
+	G_list* g;
+	g=(G_list*) malloc(sizeof(G_list));
+	g=NULL;
 
-	/*
-	
-		float **float_values;
-		//allocate memory for rows
-		float_values = (float**)malloc(4 *sizeof(float*));
-		//for each row allocate memory for columns
-		for(int i=0; i<4; i++)
-			{
-		   *(float_values+i) = (float*)malloc(3 *sizeof(float));
-			}
+	C_list* c;
+	c=(C_list*) malloc(sizeof(C_list));
+	c = NULL;
 
-	*/
-	//Criacao das Listas de Entidades
-	C_list** c;
-	
-	(c)=(C_list**) malloc(sizeof(C_list*));
-	(*c)=(C_list*) malloc(sizeof(C_list));
-	assert(c != NULL);
-	(*c)->next=NULL;
-	assert( ((*c)->next) == NULL );
-	printf("Passei o assert.\n");
+	A_list* a;
+	a=(A_list*) malloc(sizeof(A_list));
+	a = NULL;
 
-	G_list** g;
-	g=(G_list**) malloc(sizeof(G_list*));
-	(*g)=(G_list*) malloc(sizeof(G_list));
-	assert(g != NULL);
-	(*g)->next=NULL;
-	assert( ((*g)->next) == NULL );
+	I_list* i;
+	i=(I_list*) malloc(sizeof(I_list));
+	i = NULL;
 
-	I_list** i;
-	i=(I_list**) malloc(sizeof(I_list*));
-	(*i)=(I_list*) malloc(sizeof(I_list));
-	assert(i != NULL);
-	(*i)->next=NULL;
-	assert( ((*i)->next) == NULL );
-
-	A_list** a;
-	a=(A_list**) malloc(sizeof(A_list*));
-	(*a)=(A_list*) malloc(sizeof(A_list));
-	assert(a != NULL);
-	(*a)->next=NULL;
-	assert( ((*a)->next) == NULL );
+	assert(i == NULL);
 
 	printf("Declarei\n");
+	
 
-	// Preenchimento das listas a partir da entrada .txt
-	build_all(entrada,c,g,i,a);
-	printf("Build all\n");
+	build_all(entrada,&c,&g,&i,&a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
+	printf("Build All ok\n");
+
+	print_lists(&c,&g,&i,&a);
+	
+
 	fclose(entrada);
 
+	
 
-	print_lists(c,g,i,a); // Mostrando o conteudo das listas de entidades.
-	//assert(out == FUNCTION_OK);
-	printf("Printei Listas\n");
+	//for (g_aux = g; g_aux->next != NULL; g_aux = g_aux->next)
+		//weave ((void**) &g_aux, 'G', &c, &a, &i); //void g e G são os únicos termos variáveis na função. c, a e i poderiam muito bem ser variáveis globais para manter a data universal.
 
-	destroy_all(c,g,a,i);
-	printf("Destroy\n");
 
 	saida = fopen(SAIDA, "w");
+	
+	printf("\n\nAqui geramos o relatorio do Edercinho Sepa\n");
+
+
+	/*
+
+	
+
+	*/
+
 	fclose(saida);
+
+
+	destroy((void**) &g, 'G');
+	destroy((void**) &c, 'C');
+	destroy((void**) &a, 'A');
+	destroy((void**) &i, 'I');
+	printf("\nEntidades Destruidas\n");
+
+
+
 
 	printf("End of Execution\n");
 	return 0;

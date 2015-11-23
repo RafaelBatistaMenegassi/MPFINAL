@@ -22,4 +22,4 @@ int i_build(char* , I_list**);
 
 int print_lists(C_list** , G_list** , I_list** , A_list** );
 
-int destroy_all (C_list** , G_list** , A_list** , I_list** );
+int destroy(void**, char);
