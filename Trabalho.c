@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-//#include "includes/mod_def/essential_defs.h"
-//#include "includes/mod_def/errorcodes.h"
 
 #include "includes/mod_con/mod_construcao.h"
 #include "includes/mod_process/mod_process.h"
@@ -11,12 +9,36 @@
 #define ENTRADA "includes/teste.txt"
 #define SAIDA "log.txt"
 
+/*
+	TRABALHO DE METODOS DE PROGRAMACAO - FASE 1
+
+	14/0139907   -   Gabriel Benevides
+
+
+	Nesta primeira fase do trabalho foram implementadas as estruturas de dados para fins de leitura 
+	do documento txt contendo as informações do mapa. Temos listas de entidades, cidades, geradores, interconexcoes
+	e adaptadores e processamos as listas para obter as infromacoes necessarias do relatorio parcial da fase 1.
+
+	A execucao do arquivo "trabalho.c" gerará as listas de entidades, e mostrará na tela o log com as informações
+	além de gerar um txt chamado "log.txt" . Foram implementadas funcoes para a liberacao da memoria alocada para as listas
+	e para a impressao do conteudo das listas caso o usuario queira.
+
+	
+
+*/
+
+
 int main(int argc, char const *argv[]){
 
+	printf("Inicio da execucao\n");
+
 	FILE *entrada, *saida;
+
+	int op;
 	
 	entrada = fopen(ENTRADA, "r");
-	
+	assert(entrada != NULL);	// Assertiva para checar a abertura correta do arquivo.
+
 	G_list* g;
 	g=(G_list*) malloc(sizeof(G_list));
 	g=NULL;
@@ -35,48 +57,37 @@ int main(int argc, char const *argv[]){
 
 	assert( (i == NULL)  && (g == NULL) && (c == NULL) &&(a == NULL) ); // Assertiva para verificar a inicializacao correta das listas de entidades.
 
-	printf("Passei no assert - Declarei\n");
+
+	build_all(entrada,&c,&g,&i,&a);	// Como os parametros sao ponteiros para ponteiros temos que passar o endereço de memoria de nossas listas de entidades.
+	
+	assert( (i != NULL)  && (g != NULL) && (c != NULL) && (a != NULL) ); // Assertiva para garantir o preenchimento das listas.
+
+	printf("\nListas de entidades preenchidas devidamente.\nDeseja imprimi-las?\n\n(1)Sim\n(2)Nao\n");
+	scanf("%d",&op);
+	assert( (op==1) || (op==2) ); // Assertiva para garantir uma escolha plausivel do usuario.
+
+	if(op==1)
+		print_lists(&c,&g,&i,&a);
 	
 
-	build_all(entrada,&c,&g,&i,&a);	// ESSA BUILD_ALL eh uma moça de coragem. Faz a porra toda e ao fim estas listas estarao preenchidinhas. Ai ai
-	printf("Build All ok\n");
-
-	print_lists(&c,&g,&i,&a);
 	
-
-	fclose(entrada);
-
-	
-
-	//for (g_aux = g; g_aux->next != NULL; g_aux = g_aux->next)
-		//weave ((void**) &g_aux, 'G', &c, &a, &i); //void g e G são os únicos termos variáveis na função. c, a e i poderiam muito bem ser variáveis globais para manter a data universal.
-
+	assert(fclose(entrada) == 0);
 
 	saida = fopen(SAIDA, "w");
 	
-	printf("\n\n-------LOG DE ATIVIDADES-------\n\n");
+	assert(saida != NULL); // Testamos se o arquivo abriu corretamente.
+
+
+	/*
+	Entramos na fase de processamento. Durante a fase 2, aqui ficará o laço de simulação. 
+	Por enquanto, so processamos as informacoes necessárias para a fase 1.  
+
+		*/
+	printf("\n\n--------------------------LOG DE ATIVIDADES--------------------------\n");
 
 	log_run(saida,&c,&g,&i,&a);
 
-	/*
-
-		Tempo total da simulação:  20 segundos 
-		Custo total na simulação:  160000 
-		Total de geradores: 5 
-		Energia total  gerada: 15000 
-		Total de cidades : 10 
-		Energia total gasta pelas cidades: 10000 
-		Tamanho total das interconexões: 100 km 
-		Número de falhas nas interconexões: 3 
-		Número de cidades que ficaram com menos recurso que o necessário: 3 
-		Tempo que ficaram sem recurso: 60 segundos 
-		Número de cidades que ficaram com menos de 30% dos recursos : 1  
-		Tempo que ficaram com menos de 30% de recurso: 20 segundos   
-
-	*/
-
-	fclose(saida);
-
+	assert(fclose(saida) == 0);	// Arquivo foi fechado corretamente.
 
 	destroy((void**) &g, 'G');
 	destroy((void**) &c, 'C');
@@ -85,11 +96,11 @@ int main(int argc, char const *argv[]){
 
 
 
-	printf("\nEntidades Destruidas\n");
+	printf("\nEntidades Destruidas --- Memoria Desalocada\n");
 
 
 
 
-	printf("End of Execution\n");
+	printf("Fim de Execucao\n");
 	return 0;
 }

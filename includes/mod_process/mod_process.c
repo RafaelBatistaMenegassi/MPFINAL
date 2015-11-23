@@ -72,7 +72,6 @@ int log_run(FILE* ptr, C_list** c, G_list** g, I_list** i, A_list** a){
 
 	return FUNCTION_OK;
 
-
 }
 
 
@@ -85,25 +84,25 @@ int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 	A_list* aux3;
 	I_list* aux4;
 
-	printf("\nLista de Cidades\n");
+	printf("\nLista de Entidades:\n\nCidades:\n");
 	for ( aux1= (*c) ; aux1 != NULL ; aux1=aux1->next){
 		printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", aux1->current->nome,aux1->current->x_pos, aux1->current->y_pos, aux1->current->cost);
 		//free(aux1->current);
 		//freeaux1);
 	}
-	printf("\nLista de Geradores\n");
+	printf("\nGeradores:\n");
 	for ( (aux2)= (*g) ; aux2 != NULL ; aux2=aux2->next){
 		printf("Gerador: %s xpos: %d  ypos: %d  Production: %d  Cost: %d\n", aux2->current->nome,aux2->current->x_pos, aux2->current->y_pos, aux2->current->production, aux2->current->cost);
 		//free(aux2->current);
 		//freeaux2);
 	}
-	printf("\nLista de Adaptadores\n");
+	printf("\nAdaptadores:\n");
 	for ( (aux3) = (*a) ; aux3 != NULL ; aux3=aux3->next){
 		printf("Adaptador: %s xpos: %d  ypos: %d  \n", aux3->current->nome,aux3->current->x_pos, aux3->current->y_pos);
 		//free(aux3->current);
 		//freeaux3);
 	}
-	printf("\nLista de Interconexoes\n");
+	printf("\nInterconexoes:\n");
 	for ( (aux4)= (*i) ; aux4 != NULL ; aux4=aux4->next){
 		printf("Interconexao: %s xstartpos: %d  ystartpos: %d  xfinalpos: %d  yfinalpos: %d maxcapacity: %d faultchance: %.2f timemain: %d costmain: %d \n", aux4->current->nome,aux4->current->x_start_pos, aux4->current->y_start_pos, aux4->current->x_final_pos, aux4->current->y_final_pos, aux4->current->max_capacity, aux4->current->fault_chance, aux4->current->time_main, aux4->current->cost_main);
 		//free(aux4->current);
