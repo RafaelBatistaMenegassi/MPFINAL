@@ -5,7 +5,7 @@
 #include "../mod_def/essential_defs.h"
 #include "../mod_def/errorcodes.h"
 
-// Vaststao. Can you fell it?
+// Vaststao. Gum guerreiro mete gol no brasileiro.
 
 //int push_list(C_list**,C_type*);
 
@@ -54,18 +54,13 @@ int c_build(char* linha, C_list** output ){
 			aux_list->current->cost = atoi (field);
 				//Defines regular resource cost
 
+
+
+		//Insercao ao fim da lista.
 		aux_list->next= (*output);
 		(*output)=aux_list;
 
-	/*
-	if ((*output) == NULL){
-		(*output) = aux_list;
-	}
-	else{
-		(*output)->next = aux_list;
-		(*output) = (*output)->next;
-	}
-	*/
+
 
 	//printf("Cidade: %s xpos: %d  ypos: %d  resources: %d  \n", (*output)->current->nome,(*output)->current->x_pos, (*output)->current->y_pos, (*output)->current->cost);
 
@@ -126,6 +121,7 @@ int g_build(char* linha, G_list** output){
 	}
 	aux_list->current->out= NULL;
 
+	//Insercao ao fim da lista.
 	aux_list->next= (*output);
 	(*output)=aux_list;
 
@@ -147,10 +143,8 @@ int a_build(char* linha, A_list** output){
 	
 	
 
-	//aux_list 		= (*output); 
 	aux_list 		= (A_list*)malloc(sizeof(A_list));
 	aux_list->current	= (A_type*)malloc(sizeof(A_type));
-	/*//aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
 	
 	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
 		return ERROR_STREAM;
@@ -191,14 +185,8 @@ int a_build(char* linha, A_list** output){
 
 	aux_list->current->out = NULL;
 
-	//A_list	*aux1 = NULL;
-	//C_list	*aux2 = NULL;
 
-
-
-	// Alocar o elemento a ser inserido no fim da lista...
-	//	aux1 = (A_list*) malloc(sizeof(A_list));
-
+	//Insercao ao fim da lista.
 	aux_list->next= (*output);
 	(*output)=aux_list;
 
@@ -217,10 +205,10 @@ int i_build(char* linha, I_list** output){
 		*/
 
 
-	//aux_list 		= (*output); 
+	
 	aux_list 		= (I_list*) malloc(sizeof(I_list));
 	aux_list->current	= (I_type*) malloc(sizeof(I_type));
-	/* aux->next 	= NULL;   Por que teria membro next em aux? Griláo...  */
+	
 	
 	if (linha == NULL) /*Linha da entrada vazia, retorna-se erro*/
 		return ERROR_STREAM;
@@ -235,21 +223,7 @@ int i_build(char* linha, I_list** output){
 
 		*/
 
-		/* Calculando aleatoriamente a chance de falha da interconexão */
 
-		/*		
-		float num;
-		float chance_falha = 0.01;
-		srand(1); // só é executado uma vez na simulacao
-		
-		num = ((float)rand())/RAND_MAX;
-		if ( (chance_falha > 0) && (chance_falha >=num) ) 
-			printf("Falha!!\n");;
-		*/
-
-
-		/* Fim de cálculo de chance de falha */
-		
 		/* Início de geração de entidade em ponteiro para struct */
 
 		field = strtok(linha, " ");
@@ -295,36 +269,11 @@ int i_build(char* linha, I_list** output){
 				/* Defines the fixing cost */
 	}
 
-	/*
-	
-	aux_list 			= (C_list*) malloc(sizeof(C_list));
-	aux_list->current 	= aux;
-
-	*/
 
 	aux_list->current->adaptador = NULL;
 
 	aux_list->current->cidade = NULL;
-	
-	//I_list	*aux1 = NULL;
-	//C_list	*aux2 = NULL;
-
-	// Alocar o elemento a ser inserido no fim da lista...
-	/*aux1 = (I_list*) malloc(sizeof(I_list));
-
-	if(counter[3]==0){	// Aqui indicamos que este eh o primeiro elemento. Logo o ultimo elemento da lista sera NULL de fato.
-	(*output)->next=NULL;
-	counter[3]=1;
-	
-	}
-
-
-
-	aux1->current = aux_list->current;
-	aux1->next = (*output);
-	(*output)=aux1;
-	*/
-
+	//Insercao ao fim da lista.
 	aux_list->next = (*output);
 	(*output) = aux_list;
 
@@ -348,13 +297,13 @@ int destroy(void** target, char mode){
             if (input_g == NULL)
                 return ERROR_STREAM;                
  
-            destroy ((void**) &(input_g->next), 'G');
+ 			if( input_g != NULL)
+            	destroy ((void**) &(input_g->next), 'G');
  
             if (input_g->current == NULL)
                 return ERROR_DATA;                  
              
  
-            free(input_g->current->nome);
             free(input_g->current);
             free(input_g);
  
@@ -363,22 +312,21 @@ int destroy(void** target, char mode){
             input_g = NULL;
             break;
  
-            //Os casos abaixo foram apenas copiados do acima (que está funcionando plenamente), caso hajam erros, corrigir
+            
  
-            //caso C está problemático. o resto está bem
+           
         case 'C':
-            input_c = * (C_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
+            input_c = * (C_list**) target;          
  
             if (input_c == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
+                return ERROR_STREAM;                
              
             destroy ((void**) &(input_c->next), 'C');
  
             if (input_c->current == NULL)
                 return ERROR_DATA;                  
-             
- 
-            free(input_c->current->nome);
+   
+
             free(input_c->current);
             free(input_c);
             input_c = NULL;
@@ -388,10 +336,10 @@ int destroy(void** target, char mode){
  
  
         case 'A':
-            input_a = * (A_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
+            input_a = * (A_list**) target;          
  
             if (input_a == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
+                return ERROR_STREAM;               
  
             destroy ((void**) &(input_a->next), 'A');
  
@@ -399,7 +347,6 @@ int destroy(void** target, char mode){
                 return ERROR_DATA;                  
              
  
-            free(input_a->current->nome);
             free(input_a->current);
             free(input_a);
             input_a = NULL;
@@ -407,18 +354,16 @@ int destroy(void** target, char mode){
             break;
  
         case 'I':
-            input_i = * (I_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
+            input_i = * (I_list**) target;          
  
             if (input_i == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
+                return ERROR_STREAM;                
  
             destroy ((void**) &(input_i->next), 'I');
  
             if (input_i->current == NULL)
                 return ERROR_DATA;                  
-             
- 
-            free(input_i->current->nome);
+           
             free(input_i->current);
             free(input_i);
             input_i = NULL;
@@ -435,14 +380,6 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 	
 	char linha[120];
 	
-	/*
-	C_list* c_aux = *c;
-	C_list* c_aux2 = *c;
-
-	G_list* g_aux = *g;
-	A_list* a_aux = *a;
-	I_list* i_aux = *i;
-	*/
 		
 	while(( fgets(linha, 120, stream)) != NULL){
 

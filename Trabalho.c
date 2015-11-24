@@ -9,7 +9,7 @@
 #define ENTRADA "includes/teste.txt"
 #define SAIDA "log.txt"
 
-// Vaststao. Can you fell it?
+// Vaststao. Gum guerreiro mete gol no brasileiro.
 
 /*
 	TRABALHO DE METODOS DE PROGRAMACAO - FASE 1
@@ -24,6 +24,13 @@
 	A execucao do arquivo "trabalho.c" gerará as listas de entidades, e mostrará na tela o log com as informações
 	além de gerar um txt chamado "log.txt" . Foram implementadas funcoes para a liberacao da memoria alocada para as listas
 	e para a impressao do conteudo das listas caso o usuario queira.
+	
+	Temos modulos de construcao de estruturas e de processamento além de módulos de definições de macros fundamentais e structs
+	para as TAD's. Estes estão localizados em suas respectivas localizações nas pastas de mod_process, mod_con ou mod_def.
+
+	A maioria das funcoes tem como argumentos de entrada ponteiros para ponteiros das listas de entidades, por isso na maior parte 
+	das vezes temos que passar os nomes das listas com um '&' na frente, para indicar o local da memoria onde estão as listas.
+
 
 	
 
@@ -32,14 +39,17 @@
 
 int main(int argc, char const *argv[]){
 
-	printf("Inicio da execucao\n");
+	
 
 	FILE *entrada, *saida;
 
+	// Variavel que indicara a preferencia do usuario em imprimir ou nao a lista na tela.
 	int op;
 	
 	entrada = fopen(ENTRADA, "r");
 	assert(entrada != NULL);	// Assertiva para checar a abertura correta do arquivo.
+
+	printf("Inicio da execucao\n");
 
 	G_list* g;
 	g=(G_list*) malloc(sizeof(G_list));
@@ -58,7 +68,7 @@ int main(int argc, char const *argv[]){
 	i = NULL;
 
 	assert( (i == NULL)  && (g == NULL) && (c == NULL) &&(a == NULL) ); // Verificamos a inicializacao correta das listas de entidades.
-
+	printf("Listas de Entidades Declaradas e Memoria Alocada.\n");
 
 	build_all(entrada,&c,&g,&i,&a);	// Como os parametros sao ponteiros para ponteiros temos que passar o endereço de memoria de nossas listas de entidades.
 	assert( (i != NULL)  && (g != NULL) && (c != NULL) && (a != NULL) ); // Assertiva para garantir o preenchimento correto das listas.
