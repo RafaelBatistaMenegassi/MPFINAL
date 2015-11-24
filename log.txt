@@ -7,4 +7,3 @@ Total de Geradores: 4
 Energia Total Gasta Pelas Cidades: 2265
 Tamanho Total de Interconexoes: 12 km
 FIM DO RELATORIO
-ovcvfsgfsdbgdshbgdbgdngsd

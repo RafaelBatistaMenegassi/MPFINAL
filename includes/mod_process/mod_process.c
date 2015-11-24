@@ -12,69 +12,72 @@
 #endif
 
 
-int log_run(FILE* ptr, C_list** c, G_list** g, I_list** i, A_list** a){
-
-	/*	Nesta etapa, Fase 1, so incluiremos no log os fatores que podem ser calculados 
-		sem a necessidade de simulacao. Merci à tous.
-
-		-Total de geradores
-		-Energia total  gerada
-		-Total de cidades 
-		-Energia total gasta pelas cidades
-		-Tamanho total das interconexões em km
-
-	*/
-
-	// Variaveis para Calculos
-	G_list* auxG;
-	int numG = 0;
-	int energiaTotal=0;
-
-	C_list* auxC;
-	int numC = 0;
-	int energiaGastaTotal = 0;
-
-	I_list* auxI;
-	int comprimento = 0;
-
-	// Calculos e geracao do relatorio
-
-
-
-	for(auxG= (*g); auxG != NULL; auxG=auxG->next){
-		numG++;
-		energiaTotal+=auxG->current->production;
-
-	}
-	printf("Total de Geradores: %d\nEnergia Total Gerada: %d\n", numG ,energiaTotal);
-	fprintf(ptr,"-------RELATORIO DE ATIVIDADES-------\n\n\nTotal de Geradores: %d\nEnergia Total Gerada: %d\n", numG, energiaTotal );
-
-
-
-	for(auxC= (*c); auxC != NULL; auxC=auxC->next){
-		numC++;
-		energiaGastaTotal+=auxC->current->cost;
-	}
-	printf("Total de Cidades: %d\nEnergia Total Gasta Pelas Cidades: %d\n", numC ,energiaGastaTotal);
-	fprintf(ptr,"Total de Geradores: %d\nEnergia Total Gasta Pelas Cidades: %d\n", numC, energiaGastaTotal );
-
-
-
-	for(auxI= (*i); auxI != NULL; auxI=auxI->next){
-		comprimento+= sqrt( pow( (double) ((auxI->current->x_start_pos) - (auxI->current->x_final_pos)) , 2 ) + pow( (double)( (auxI->current->y_start_pos) - (auxI->current->y_final_pos) ) , 2 ) );
-	}
-	printf("Tamanho Total de Interconexoes: %d km\n", comprimento);
-	fprintf(ptr, "Tamanho Total de Interconexoes: %d km\n", comprimento);
-
-	printf("FIM DO RELATORIO\n");
-	fprintf(ptr, "FIM DO RELATORIO\n");
-
-
-	return FUNCTION_OK;
-
+int log_run(FILE* ptr, C_list* c, G_list* g, I_list* i, A_list* a){
+ 
+    /*  Nesta etapa, Fase 1, so incluiremos no log os fatores que podem ser calculados 
+        sem a necessidade de simulacao. Merci à tous.
+ 
+        -Total de geradores
+        -Energia total  gerada
+        -Total de cidades 
+        -Energia total gasta pelas cidades
+        -Tamanho total das interconexões em km
+ 
+    */
+ 
+    // Variaveis para Calculos
+    G_list* auxG;
+    int numG = 0;
+    int energiaTotal=0;
+ 
+    C_list* auxC;
+    int numC = 0;
+    int energiaGastaTotal = 0;
+ 
+    I_list* auxI;
+    int comprimento = 0;
+ 
+    // Calculos e geracao do relatorio
+ 
+ 
+    auxG = g;
+    while(auxG != NULL){
+        numG++;
+        energiaTotal += auxG->current->production;
+        auxG = auxG->next;
+ 
+    }
+    printf("Total de Geradores: %d\nEnergia Total Gerada: %d\n", numG ,energiaTotal);
+    fprintf(ptr,"-------RELATORIO DE ATIVIDADES-------\n\n\nTotal de Geradores: %d\nEnergia Total Gerada: %d\n", numG, energiaTotal );
+ 
+ 
+    auxC = c;
+    while(auxC != NULL){
+        numC++;
+        energiaGastaTotal+=auxC->current->cost;
+        auxC = auxC->next;
+    }
+    printf("Total de Cidades: %d\nEnergia Total Gasta Pelas Cidades: %d\n", numC ,energiaGastaTotal);
+    fprintf(ptr,"Total de Geradores: %d\nEnergia Total Gasta Pelas Cidades: %d\n", numC, energiaGastaTotal );
+ 
+ 
+    auxI = i;
+    while( auxI != NULL){
+        comprimento+= sqrt( pow( (double) ((auxI->current->x_start_pos) - (auxI->current->x_final_pos)) , 2 ) + pow( (double)( (auxI->current->y_start_pos) - (auxI->current->y_final_pos) ) , 2 ) );
+        auxI = auxI->next;
+    }
+    printf("Tamanho Total de Interconexoes: %d km\n", comprimento);
+    fprintf(ptr, "Tamanho Total de Interconexoes: %d km\n", comprimento);
+ 
+    printf("FIM DO RELATORIO\n");
+    fprintf(ptr, "FIM DO RELATORIO\n");
+ 
+ 
+    return FUNCTION_OK;
+ 
 }
-
-
+ 
+ 
 int print_lists(C_list** c, G_list** g, I_list** i, A_list** a){
 
 	/* Imprime e libera as listas de uma só vez. */

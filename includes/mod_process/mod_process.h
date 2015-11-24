@@ -6,7 +6,7 @@
 
 
 
-int log_run(FILE* , C_list** , G_list** , I_list** , A_list** );
+int log_run(FILE* , C_list* , G_list* , I_list* , A_list* );
 
 
 int print_lists(C_list** , G_list** , I_list** , A_list** );
