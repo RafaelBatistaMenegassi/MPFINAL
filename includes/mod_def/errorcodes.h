@@ -11,25 +11,23 @@
 		pode processar a informação
 	*/	
 
-#define ERROR_OVERFLOW 	-2
-	/* Caso particular: houve erro no processo de contagem de linhas.
-		Este valor de retorno é chamado para conter o movimento dos
-		ponteiros de leitura/escrita.
-		Caso isso ocorra, é possível que esteja-se tentando escrever
-		no arquivo informações fora de controle, o que geraria uns
-		erros bizarros
+#define ERROR_FORMAT 	-2
+	/* Retorno deste valor indica, a princípio, que a função foi chamada
+		de forma incorreta, exigindo que ela processe as informações dadas
+		de maneira incondizente.
+		Exemplo:
+			destroy() recebe um caractere como parâmetro que indica o
+			modo de desalocação de memória a ser feito. corrupção deste
+			caractere durante o input faz com que a função retorne
+			este valor.
 	*/
-
-#define ERROR_TARGET	-3
-	/* Valor retornado por reg_seek(), caso o valor da linha procurada
-		seja negativo. A ausência deste retorno não causaria problemas,
-		mas serve como detecção de erro, indicando que houve falha no
-		processo de contagem de linhas.
-		Também retornado por seek_primario(), caso a chave buscada não
-		corresponda a nenhum registro conhecido.
-	*/
-
-#define ERROR_FORMAT -5
 		
 
-#define ERROR_DATA -6
+#define ERROR_DATA 		-3
+	/* Uma função retornará este valor caso a data adquirida, por mais
+		que se apresente como informação saudável, seja nula. O motivo
+		para a utilização deste código de erro é, principalmente a função
+		destroy(), que retornará ERROR_DATA caso a lista de elementos
+		recebida esteja estruturada de forma saudável, porém algum
+		elemento não contenha informação.
+	*/

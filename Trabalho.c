@@ -6,7 +6,7 @@
 #include "includes/mod_con/mod_construcao.h"
 #include "includes/mod_process/mod_process.h"
 
-#define ENTRADA "includes/teste.txt"
+#define ENTRADA "includes/mapa.txt"
 #define SAIDA "log.txt"
 
 // Vaststao. Gum guerreiro mete gol no brasileiro.
@@ -51,6 +51,7 @@ int main(int argc, char const *argv[]){
 
 	printf("Inicio da execucao\n");
 
+	// Declaracao e Alocacao das Listas de Entidades.
 	G_list* g;
 	g=(G_list*) malloc(sizeof(G_list));
 	g=NULL;
