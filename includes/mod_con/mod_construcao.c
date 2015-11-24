@@ -5,7 +5,7 @@
 #include "../mod_def/essential_defs.h"
 #include "../mod_def/errorcodes.h"
 
-
+// Vaststao. Can you fell it?
 
 //int push_list(C_list**,C_type*);
 
@@ -333,108 +333,7 @@ int i_build(char* linha, I_list** output){
 	return FUNCTION_OK;
 
 }
-/*
 
-int destroy(void** target, char mode){
-    G_list* input_g = NULL;
-    C_list* input_c = NULL;
-    A_list* input_a = NULL;
-    I_list* input_i = NULL;
- 
- 
-    switch (mode){
-        case 'G':
- 
-            input_g = * (G_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
- 
-            if (input_g == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
- 
-            destroy ((void**) &(input_g->next), 'G');
- 
-            if (input_g->current == NULL)
-                return ERROR_DATA;                  
-             
- 
-            free(input_g->current->nome);
-            free(input_g->current);
-            free(input_g);
- 
-         
- 
-            input_g = NULL;
-            break;
- 
-            //Os casos abaixo foram apenas copiados do acima (que está funcionando plenamente), caso hajam erros, corrigir
- 
-            //caso C está problemático. o resto está bem
-        case 'C':
-            input_c = * (C_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
- 
-            if (input_c == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
-             
-            destroy ((void**) &(input_c->next), 'C');
- 
-            if (input_c->current == NULL)
-                return ERROR_DATA;                  
-             
- 
-            free(input_c->current->nome);
-            free(input_c->current);
-            free(input_c);
-            input_c = NULL;
- 
-             
-            break;
- 
- 
-        case 'A':
-            input_a = * (A_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
- 
-            if (input_a == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
- 
-            destroy ((void**) &(input_a->next), 'A');
- 
-            if (input_a->current == NULL)
-                return ERROR_DATA;                  
-             
- 
-            free(input_a->current->nome);
-            free(input_a->current);
-            free(input_a);
-            input_a = NULL;
- 
-            break;
- 
-        case 'I':
-            input_i = * (I_list**) target;          //TYPECASTING TÁ ROLANDO!! não mexa nessa linha
- 
-            if (input_i == NULL)
-                return ERROR_STREAM;                //Evita segfault por conta da chamada seguinte
- 
-            destroy ((void**) &(input_i->next), 'I');
- 
-            if (input_i->current == NULL)
-                return ERROR_DATA;                  
-             
- 
-            free(input_i->current->nome);
-            free(input_i->current);
-            free(input_i);
-            input_i = NULL;
- 
-            break;
- 
-        default: return ERROR_FORMAT;
-    }
- 
-    return FUNCTION_OK;
-}
-
-
-*/
 int destroy(void** target, char mode){
     G_list* input_g = NULL;
     C_list* input_c = NULL;

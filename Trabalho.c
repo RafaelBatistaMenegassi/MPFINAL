@@ -9,6 +9,8 @@
 #define ENTRADA "includes/teste.txt"
 #define SAIDA "log.txt"
 
+// Vaststao. Can you fell it?
+
 /*
 	TRABALHO DE METODOS DE PROGRAMACAO - FASE 1
 
