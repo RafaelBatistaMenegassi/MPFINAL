@@ -8,7 +8,7 @@
 //#include "../mod_def/errorcodes.h"
 
 
-	// Functions
+	// Funcoes para o preenchimento e destruicao das listas de entidades a partir do arquivo .txt fornecido.
 
 
 int build_all(FILE* , C_list** , G_list** , I_list** , A_list**  );

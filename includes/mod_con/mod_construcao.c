@@ -5,9 +5,7 @@
 #include "../mod_def/essential_defs.h"
 #include "../mod_def/errorcodes.h"
 
-// Vaststao. Gum guerreiro mete gol no brasileiro.
-
-//int push_list(C_list**,C_type*);
+// Especificacao das funcoes de construcao.
 
 int c_build(char* linha, C_list** output ){
 
@@ -271,8 +269,8 @@ int i_build(char* linha, I_list** output){
 
 
 	aux_list->current->adaptador = NULL;
-
 	aux_list->current->cidade = NULL;
+
 	//Insercao ao fim da lista.
 	aux_list->next = (*output);
 	(*output) = aux_list;
@@ -385,7 +383,7 @@ int build_all(FILE* stream, C_list** c, G_list** g, I_list** i, A_list** a ){
 
 		
 		//printf("%s\n", linha );
-		
+		// Processamos linha por linha inserindo a entidade na lista apropriada.
 		switch (linha[0]) {
 
 			case 'C':

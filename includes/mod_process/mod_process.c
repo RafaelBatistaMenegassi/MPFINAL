@@ -15,7 +15,7 @@
 int log_run(FILE* ptr, C_list* c, G_list* g, I_list* i, A_list* a){
  
     /*  Nesta etapa, Fase 1, so incluiremos no log os fatores que podem ser calculados 
-        sem a necessidade de simulacao. Merci à tous.
+        sem a necessidade de simulacao.
  
         -Total de geradores
         -Energia total  gerada

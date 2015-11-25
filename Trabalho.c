@@ -6,16 +6,17 @@
 #include "includes/mod_con/mod_construcao.h"
 #include "includes/mod_process/mod_process.h"
 
-#define ENTRADA "includes/mapa.txt"
+#define ENTRADA "includes/teste.txt"
 #define SAIDA "log.txt"
 
-// Vaststao. Gum guerreiro mete gol no brasileiro.
+
 
 /*
 	TRABALHO DE METODOS DE PROGRAMACAO - FASE 1
 
 	14/0139907   -   Gabriel Benevides
-
+	14/0159355	 -	 Rafael Batista
+	14/0163603	 -	 Thales Grilo
 
 	Nesta primeira fase do trabalho foram implementadas as estruturas de dados para fins de leitura 
 	do documento txt contendo as informações do mapa. Temos listas de entidades, cidades, geradores, interconexcoes
@@ -29,9 +30,12 @@
 	para as TAD's. Estes estão localizados em suas respectivas localizações nas pastas de mod_process, mod_con ou mod_def.
 
 	A maioria das funcoes tem como argumentos de entrada ponteiros para ponteiros das listas de entidades, por isso na maior parte 
-	das vezes temos que passar os nomes das listas com um '&' na frente, para indicar o local da memoria onde estão as listas.
+	das vezes temos que passar os nomes das listas com um '&' na frente, para indicar o local da memoria onde elas se encontram.
 
+	Obs: No sistema operacional Unix, e necessario a inclusao da flag "-lm" no momento da compilacao para que seja possivel a 
+	inclusao da biblioteca "math.h" que e usada para calcular algumas variaveis ao longo do processo.
 
+	Merci à Tous.
 	
 
 */
