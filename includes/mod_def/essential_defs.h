@@ -55,8 +55,9 @@ typedef struct Adaptador{
 	int x_pos;
 	int y_pos;
 	short int status;
+	short int out_max;
 
-	struct Interconexao** out;
+	I_type** out;
 
 	}	A_type;
 

@@ -96,6 +96,36 @@ int main(int argc, char const *argv[]){
 	assert(saida != NULL); // Testamos se o arquivo abriu corretamente.
 
 
+	G_list* g_aux;
+	int retorno;
+
+
+		//weaving loop
+	g_aux = g;
+	while (g_aux != NULL){
+		//printf("FIRST Intercon: \t%s\n", i->current->nome);
+		//printf("Current Generator: \t%s\n", g_aux->current->nome);
+		if ((retorno = weave ((void**) &g_aux, 'G', &c, &a, &i)) == ERROR_DATA){ 	//void g e G são os únicos termos variáveis na função. c, a e i poderiam muito bem ser variáveis globais para manter a data universal.
+			printf ("COLISÃO, ENCERRANDO");									//esta condicional é uma assertiva de que a função não detectou erros na database
+			return ERROR_DATA;
+		}
+		g_aux = g_aux->next;
+	}
+
+
+		printf("weave return value: %d\n", retorno);
+
+		//running test
+	printf("Now Testing web_run()\n");
+	g_aux = g;
+	while (g_aux != NULL){
+		printf("\nweb_run return value: %d\n", 
+			web_run((void**) &g_aux, 'G'));
+		g_aux = g_aux->next;
+		printf("\n");
+	}	
+
+
 	/*
 	Entramos na fase de processamento. Durante a fase 2, aqui ficará o laço de simulação. 
 	Por enquanto, so processamos as informacoes necessárias para a fase 1.  
